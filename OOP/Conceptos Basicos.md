@@ -11,6 +11,95 @@ Las clases son tipos de datos definidos por el usuario, que contienen atributos 
 Son instancias concretas (ejemplares) de una clase. Cada objeto tiene sus propios valores para los atributos.
 <img width="841" height="673" alt="image" src="https://github.com/user-attachments/assets/738c73ee-aca4-451d-ae9a-cca0ed357175" />
 
+### Jerarquia de clases
+
+#### Clase padre, superclase o clase base:
+Clase que define atributos y comportamientos comunes (genéricos), los cuales pueden ser heredados por otras clases (llamadas hijas o subclases).
+
+### Subclases o clases hijas:
+Clase que hereda el estado (atributos) y comportamiento (métodos) definidos por su clase padre, pero que puede agregar nuevos métodos y atributos, o modificar los heredados.
+
+<img width="610" height="681" alt="image" src="https://github.com/user-attachments/assets/c9d4d5e3-2833-4c3a-a695-baa7476dc5ae" />
+
+### Ejemplo:
+```c#
+using System;
+
+// Clase base (padre)
+public class Persona
+{
+    // Propiedades comunes
+    public string Nombre { get; }
+    public string Apellido { get; }
+    public int Edad { get; }
+
+    // Constructor
+    public Persona(string nombre, string apellido, int edad)
+    {
+        Nombre = !string.IsNullOrWhiteSpace(nombre) ? nombre : throw new ArgumentException("Nombre inválido");
+        Apellido = !string.IsNullOrWhiteSpace(apellido) ? apellido : throw new ArgumentException("Apellido inválido");
+        Edad = edad >= 0 ? edad : throw new ArgumentException("Edad no puede ser negativa");
+    }
+
+    // Método común
+    public virtual void Presentarse()
+    {
+        Console.WriteLine($"Hola, soy {Nombre} {Apellido} y tengo {Edad} años.");
+    }
+}
+```
+```c#
+// Clase derivada (hija)
+public class Empleado : Persona
+{
+    // Propiedades adicionales
+    public string Puesto { get; }
+    public decimal Salario { get; }
+
+    // Constructor (usa base() para heredar el constructor de Persona)
+    public Empleado(string nombre, string apellido, int edad, string puesto, decimal salario) 
+        : base(nombre, apellido, edad)
+    {
+        Puesto = !string.IsNullOrWhiteSpace(puesto) ? puesto : throw new ArgumentException("Puesto inválido");
+        Salario = salario >= 0 ? salario : throw new ArgumentException("Salario no puede ser negativo");
+    }
+
+    // Sobrescritura del método (override)
+    public override void Presentarse()
+    {
+        base.Presentarse(); // Reutiliza el método de Persona
+        Console.WriteLine($"Trabajo como {Puesto} y mi salario es {Salario:C}.");
+    }
+
+    // Método adicional específico de Empleado
+    public void Trabajar()
+    {
+        Console.WriteLine($"{Nombre} está trabajando en {Puesto}...");
+    }
+}
+```
+```c#
+// Ejemplo de uso
+class Program
+{
+    static void Main()
+    {
+        Persona persona = new Persona("Ana", "Gómez", 30);
+        persona.Presentarse(); 
+        // Output: "Hola, soy Ana Gómez y tengo 30 años."
+
+        Empleado empleado = new Empleado("Carlos", "Ruiz", 28, "Desarrollador", 50000);
+        empleado.Presentarse(); 
+        /* Output:
+           "Hola, soy Carlos Ruiz y tengo 28 años.
+           Trabajo como Desarrollador y mi salario es $50,000.00."
+        */
+        empleado.Trabajar(); 
+        // Output: "Carlos está trabajando en Desarrollador..."
+    }
+}
+```
+
 ## Conceptos Clave
 
 - **Encapsulamiento:** Agrupa datos y métodos.
