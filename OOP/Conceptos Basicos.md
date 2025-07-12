@@ -102,6 +102,10 @@ class Program
 
 ## Conceptos Clave
 
-- **Encapsulamiento:** Agrupa datos y métodos.
-- **Herencia:** Permite reutilizar código.
-- **Polimorfismo:** Diferentes objetos responden a los mismos métodos
+- **Abstraccion:** Consiste en crear modelos de objetos basados en "cosas" del mundo real, pero limitado a su contexto espefiica, represetando todos los datos necesarios de su contexto el resto se omite.
+- **Encapsulamiento:** Cuando un objeto esconsu su estado o compartmientos de otros objetos, permitiendo sua acceso crontolado mediante interfaces al resto del programa
+<img width="619" height="590" alt="image" src="https://github.com/user-attachments/assets/41ae1851-7ae4-4375-be85-2583432e515b" />
+
+- **Herencia:** Permite reutilizar código declarnado  clases padre con atributos y comaprtmientos comunes que luego sus clases hijas hereden y solo agregan o sobreescriben los abritbutos o metodos nuevos.
+
+- **Polimorfismo:** es la capacidad que tiene un programa de detectar la verdadera clase de un objeto e invocar su implementación
