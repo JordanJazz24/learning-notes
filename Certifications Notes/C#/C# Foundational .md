@@ -1,149 +1,172 @@
-La diferencia entre Console.Write y Console.WriteLine
-Las tres nuevas líneas de código que agregó demostraron la diferencia entre los Console.WriteLine() métodos y Console.Write .
 
-Console.WriteLine() imprime un mensaje en la consola de salida. Al final de la línea, agrega un avance de línea, como cuando se crea una línea de texto con la tecla Entrar o Retroceso del teclado.
+## 📝 Fundamentos de C\# y el Entorno .NET
 
-Para imprimir en la consola de salida, pero sin agregar un avance de línea al final, ha utilizado la segunda técnica, Console.Write(). Por lo tanto, la siguiente llamada a Console.Write() imprime otro mensaje en la misma línea.
+Esta es la base de todo. Entender cómo funciona la plataforma y cómo interactuar con ella es el primer paso.
 
-Los nombres de variable distinguen mayúsculas de minúsculas, lo que significa que string Value; y string value; son dos variables diferente
+### El Ecosistema .NET
 
-La var palabra clave indica al compilador de C# que el tipo de datos está implícito en el valor asignado. Una vez implícito el tipo, la variable actúa igual que si se hubiera usado el tipo de datos real para declararlo. La var palabra clave se usa para ahorrar pulsaciones de tecla cuando los tipos son largos o cuando el tipo es obvio por el contexto.
-Las variables que usan la var palabra clave deben inicializarse.
+  * **.NET SDK y .NET Runtime (CLR):** Piensa en el **SDK (Software Development Kit)** como tu caja de herramientas para construir la aplicación (compilador, librerías, etc.). El **Runtime (o CLR - Common Language Runtime)** es el motor que necesita el usuario final para *ejecutar* esa aplicación. Tú, como desarrollador, necesitas el SDK; tus usuarios solo necesitan el Runtime.
+  * **Biblioteca de Clases de .NET (.NET Class Library):** Es una gigantesca colección de código pre-hecho por Microsoft que te ahorra miles de horas de trabajo. La clase `Console` que usas para escribir en pantalla es un ejemplo perfecto; vive dentro de esta biblioteca.
 
+### Salida por Consola: `Write` vs. `WriteLine`
 
-Secuencias de escape de caracteres
-Una secuencia de caracteres de escape es una instrucción para el entorno de tiempo de ejecución para que inserte un carácter especial que afectará a la salida de la cadena. 
+  * `Console.WriteLine()`: Escribe el texto que le pases y luego **agrega un salto de línea** (como presionar "Enter"). Es ideal para mostrar mensajes uno debajo del otro.
+  * `Console.Write()`: Escribe el texto y **deja el cursor justo al final**, en la misma línea. Úsalo cuando quieras que la siguiente escritura aparezca inmediatamente después, sin saltos.
 
-Verbatim string literal
-A verbatim string literal will keep all whitespace and characters without the need to escape the backslash. To create a verbatim string, use the @ directive before the literal string.
+-----
 
+## Variables y Tipos de Datos
 
-Console.WriteLine(@"    c:\source\repos    
-        (this is where your code goes)");
+Las variables son los "contenedores" de tus datos. Elegir el tipo correcto y nombrarlas bien es crucial.
 
-Here's what you've learned about formatting literal strings so far:
-
-Use character escape sequences when you need to insert a special character into a literal string, like a tab \t, new line \n, or a double quotation mark \".
-Use an escape character for the backslash \\ when you need to use a backslash in all other scenarios.
-Use the @ directive to create a verbatim string literal that keeps all whitespace formatting and backslash characters in a string.
-Use the \u plus a four-character code to represent Unicode characters (UTF-16) in a string.
-Unicode characters may not print correctly depending on the application.
-
-string interpolation?
-String interpolation combines multiple values into a single literal string by using a "template" and one or more interpolation expressions. An interpolation expression is indicated by an opening and closing curly brace symbol { }. You can put any C# expression that returns a value inside the braces. The literal string becomes a template when it's prefixed by the $ character.
-
-
-You can combine string interpolation and verbatim literals by combining the symbols for each and using that as a prefix for the string template.
-
-
-
-To see division working properly, you need to use a data type that supports fractional digits after the decimal point like decimal.
-
-Order of operations
-As you learned in the previous exercise, you can use the () symbols as the order of operations operators. However, this isn't the only way the order of operations is determined.
-
-In math, PEMDAS is an acronym that helps students remember the order of operations. The order is:
-
-Parentheses (whatever is inside the parenthesis is performed first)
-Exponents
-Multiplication and Division (from left to right)
-Addition and Subtraction (from left to right)
-
-----Call methods from the .NET Class Library using C#----
-
-The .NET SDK and .NET Runtime
-.NET is a cross-platform, open-source developer platform that's used to develop different types of applications. It includes the software languages and code libraries used to develop .NET applications. You can write .NET applications in C#, F#, or Visual Basic. The .NET platform is used to develop and run applications on Windows, macOS, and Linux. The .NET platform provides a runtime environment for running applications.
-
-The .NET runtime is the code library that's required to run your C# applications. You may also see the .NET runtime referred to as the Common Language Runtime, or CLR. The .NET runtime isn't required to write your C# code, but it's required to actually run your C# applications.
-
-Visual Studio Code uses the .NET SDK and C# extensions to provide a development environment for writing, running, and debugging C# applications.
-
-
-
-The .NET Class Library is a collection of thousands of classes containing tens of thousands of methods. For example, the .NET Class Library includes the Console class for developers working on console applications. The Console class includes methods for input and output operations such as Write(), WriteLine(), Read(), ReadLine(), and many others.
-
-
-Some methods don't rely on the current state of the application to work properly. In other words, stateless methods are implemented so that they can work without referencing or changing any values already stored in memory. Stateless methods are also known as static methods.
-
-For example, the Console.WriteLine() method doesn't rely on any values stored in memory. It performs its function and finishes without impacting the state of the application in any way.
-
-
-Other methods, however, must have access to the state of the application to work properly. In other words, stateful methods are built in such a way that they rely on values stored in memory by previous lines of code that have already been executed. Or they modify the state of the application by updating values or storing new values in memory. They're also known as instance methods.
-
-
-
-The new operator does several important things:
-
-It first requests an address in the computer's memory large enough to store a new object based on the Random class.
-It creates the new object, and stores it at the memory address.
-It returns the memory address so that it can be saved in the dice object.
-
-
-
-
-
-
-Oftentimes, the terms 'parameter' and 'argument' are used interchangeably. However, 'parameter' refers to the variable that's being used inside the method. An 'argument' is the value that's passed when the method is called.
-
-Overloaded methods support several implementations of the method, each with a unique method signature (the number of parameters and the data type of each parameter).
-
---Add decision logic to your code using `if`, `else`, and `else if` statements in C#---
-
-
-
-A Boolean expression is any code that returns a Boolean value, either true or false. The simplest Boolean expressions are simply the values true and false. Alternatively, a Boolean expression could be the result of a method that returns the value true or false
-
-
-
-A code block is a collection of one or more lines of code that are defined by an opening and closing curly brace symbol { }.
-
-
-
-Here you combine three Boolean expressions to create one composite Boolean expression in a single line of code. This is sometimes called a compound condition. You have one outer set of parentheses that combines three inner sets of parentheses separated by two pipe characters.
-
-
---Store and iterate through sequences of data using Arrays and the foreach statement in C# --
-
-
-An array is a collection of individual data elements accessible through a single variable name. You use a zero-based numeric index to access each element of an array. Arrays allow you to create a collection of data values that shares a common purpose or characteristics under a single variable name for easier processing.
-
-Notice that the first set of square brackets [] merely tells the compiler that the variable named fraudulentOrderIDs is an array, but the second set of square brackets [3] indicates the number of elements that the array can hold.
-
-The foreach statement provides a simple, clean way to iterate through the elements of an array. The foreach statement processes array elements in increasing index order, starting with index 0 and ending with index Length - 1. It uses a temporary variable to hold the value of the array element associated with the current iteration. Each iteration will run the code block that's located below the foreach declaration.
-
-The foreach statement sets the value of the current element in the array to a temporary variable, which you can use in the body of the code block.
-
-
-
----Create readable code with conventions, whitespace, and comments in C#--
-
-
-
-Variable names can contain alphanumeric characters and the underscore (_) character. Special characters like the pound #, the dash -, and the dollar sign $ are not allowed.
-Variable names must begin with an alphabetical letter or an underscore, not a number. Using an underscore character to start a variable name is typically reserved for private instance fields. A link to further reading can be found in the module summary.
-Variable names must NOT be a C# keyword. For example, these variable name declarations won't be allowed: float float; or string string;.
-Variable names are case-sensitive, meaning that string MyValue; and string myValue; are two different variables.
-
-
-
-Use code comments to leave meaningful notes to yourself about the problem your code solves.
-
-
-
------------------------
-
-What is the conditional operator?
-The conditional operator ?: evaluates a Boolean expression and returns one of two results depending on whether the Boolean expression evaluates to true or false. The conditional operator is commonly referred to as the ternary conditional operator.
-
-
-----
-For the first code sample, the compiler interprets flag as a Boolean variable that could be assigned a value of either true or false. The compiler concludes that if flag is false, value will not be initialized when the second Console.WriteLine() is executed. Essentially the compiler considers the following two code execution paths to be possible:
-
-When implementing an if statement that includes a single-statement code block, Microsoft recommends that you consider these conventions:
-
-Never use single-line form (for example: if (flag) Console.WriteLine(flag);
-Using braces is always accepted, and required if any block of an if/else if/.../else compound statement uses braces or if a single statement body spans multiple lines.
-Braces may be omitted only if the body of every block associated with an if/else if/.../else compound statement is placed on a single line.
-
-
-
+  * **Sensibilidad a Mayúsculas (Case-Sensitive):** En C\#, `string miVariable;` y `string mivariable;` son **dos variables completamente diferentes**. Esta es una fuente común de errores para principiantes.
+  * **Inferencia de Tipos con `var`:** La palabra clave `var` es un atajo muy útil. Le dices al compilador: "Oye, mira el valor que le estoy asignando a esta variable y deduce tú mismo el tipo de dato".
+      * **Regla de oro:** Una variable declarada con `var` **debe ser inicializada en la misma línea**. El compilador necesita ver el valor para saber qué tipo es.
+        ```csharp
+        // Correcto 👍
+        var message = "Hello, world!"; // El compilador sabe que 'message' es un string.
+
+        // Incorrecto 👎
+        // var message;
+        // message = "Hello, world!"; // Esto genera un error de compilación.
+        ```
+  * **Precisión en Operaciones Matemáticas:** Cuando realices divisiones que puedan resultar en decimales, evita usar tipos enteros (`int`). Si divides `int 7 / int 5`, el resultado será `1` (la parte decimal se trunca). Para obtener un resultado preciso, utiliza tipos de datos que soporten decimales, como `decimal`, `double`, o `float`.
+      * **Pro-tip:** Usa `decimal` para cálculos financieros o cuando la precisión es crítica. Usa `double` para cálculos científicos o gráficos donde el rendimiento es más importante que la precisión perfecta.
+
+-----
+
+## 🔠 Manipulación de Cadenas de Texto (Strings)
+
+Trabajar con texto es una de las tareas más comunes. C\# te da herramientas muy potentes para ello.
+
+  * **Secuencias de Escape:** Son "códigos especiales" que empiezan con una barra invertida `\` para representar caracteres que son difíciles de escribir directamente.
+      * `\n`: Nueva línea.
+      * `\t`: Tabulación.
+      * `\"`: Comillas dobles (para poder poner comillas dentro de un string que ya usa comillas).
+      * `\\`: Barra invertida (para poder escribir una barra invertida literal).
+      * `\uXXXX`: Para insertar caracteres Unicode específicos usando su código hexadecimal de 4 dígitos.
+  * **Cadenas Literales Textuales (Verbatim Strings):** Usando el símbolo `@` al inicio de una cadena (`@"..."`), le dices a C\# que ignore las secuencias de escape y respete todos los espacios y saltos de línea tal cual los escribes. Es extremadamente útil para rutas de archivos.
+    ```csharp
+    // Sin @, tendrías que escapar las barras invertidas
+    string oldPath = "c:\\source\\repos";
+
+    // Con @, es mucho más limpio y legible
+    string newPath = @"c:\source\repos";
+    ```
+  * **Interpolación de Cadenas (String Interpolation):** Esta es la forma moderna y recomendada de construir cadenas a partir de variables. Usando el símbolo `$` al inicio, puedes incrustar variables y expresiones directamente dentro de la cadena usando llaves `{}`.
+    ```csharp
+    string name = "Ana";
+    int version = 11;
+
+    // Forma antigua (concatenación)
+    string messageOld = "Welcome, " + name + "! You are using .NET version " + version + ".";
+
+    // Forma moderna y superior (interpolación) 😎
+    string messageNew = $"Welcome, {name}! You are using .NET version {version}.";
+    ```
+  * **Combinación de Verbatim e Interpolación:** Puedes usar `@` y `$` juntos (`$@"..."`) para crear una cadena que es tanto literal como interpolada. ¡Lo mejor de ambos mundos\!
+
+-----
+
+## 🧮 Operadores y Expresiones
+
+Entender cómo C\# evalúa las operaciones matemáticas y lógicas es fundamental para evitar bugs.
+
+  * **Orden de Operaciones (PEMDAS):** C\# respeta el orden matemático estándar.
+    1.  **P**aréntesis `()`
+    2.  **E**xponentes
+    3.  **M**ultiplicación `*` y **D**ivisión `/` (de izquierda a derecha)
+    4.  **A**dición `+` y **S**ustracción `-` (de izquierda a derecha)
+    <!-- end list -->
+      * **Pro-tip:** No te fíes de tu memoria. Si una expresión es compleja, **usa paréntesis `()`** para dejar claro el orden que quieres. El código claro siempre es mejor que el código "inteligente".
+  * **Operador Condicional Ternario `?:`**: Es una forma compacta de escribir un `if-else`. Su estructura es: `condicion ? valor_si_es_verdadero : valor_si_es_falso`.
+    ```csharp
+    int temperature = 25;
+    string state = temperature > 20 ? "Caliente" : "Frio";
+    // 'state' será "Caliente"
+    ```
+
+-----
+
+## 🧠 Lógica de Control de Flujo
+
+Esto te permite dirigir el "flujo" de tu programa, tomando decisiones y repitiendo tareas.
+
+### Estructuras de Decisión (`if`/`else`)
+
+  * **Expresión Booleana:** Es cualquier cosa que se evalúe como `true` o `false`. Puede ser una variable (`bool isReady = true;`), el resultado de una comparación (`age > 18`), o el valor que devuelve un método.
+  * **Bloques de Código `{}`:** Un bloque de código agrupa una o más líneas que se ejecutarán juntas. En un `if`, si la condición es verdadera, se ejecuta el bloque de código que le sigue.
+  * **Estructura `if`, `else if`, `else`:** Te permite evaluar múltiples condiciones en secuencia.
+  * **Convenciones de Estilo para `if`:**
+      * **Siempre usa llaves `{}`**, incluso para una sola línea. Esto evita errores si en el futuro agregas más código al bloque y te olvidas de poner las llaves. Es una práctica recomendada por Microsoft y te salvará de muchos dolores de cabeza.
+        ```csharp
+        // Recomendado 👍
+        if (condition)
+        {
+            DoSomething();
+        }
+
+        // Evitar 👎 (aunque sea válido)
+        if (condition) DoSomething();
+        ```
+
+### Estructuras de Iteración (Bucles)
+
+  * **Arrays:** Son colecciones de tamaño fijo que guardan elementos del mismo tipo de dato. Se accede a cada elemento a través de un **índice numérico que empieza en 0**.
+    ```csharp
+    // Declara un array de strings que puede contener 3 elementos.
+    string[] names = new string[3];
+    names[0] = "Alice";
+    names[1] = "Bob";
+    names[2] = "Charlie";
+    ```
+  * **Bucle `foreach`:** Es la forma más simple y segura de **recorrer todos los elementos** de una colección (como un array). En cada iteración, te da una copia del elemento actual.
+    ```csharp
+    foreach (string name in names)
+    {
+        Console.WriteLine($"Hello, {name}!");
+    }
+    ```
+  * **`foreach` vs. `for`:**
+      * Usa `foreach` cuando solo necesites **leer** cada elemento de la colección, de principio a fin. Es más simple y menos propenso a errores.
+      * Usa `for` cuando necesites más control: si necesitas modificar el elemento en el array, acceder al índice, recorrer la colección en orden inverso, o saltarte elementos.
+
+-----
+
+## 🛠️ Trabajando con Métodos y Objetos
+
+Los métodos son bloques de código reutilizables. Los objetos son instancias de clases que agrupan datos y comportamiento.
+
+  * **Métodos Estáticos vs. Métodos de Instancia:**
+      * **Estáticos (Stateless):** No dependen de un objeto específico. Se llaman directamente desde la clase. `Console.WriteLine()` es estático porque no necesitas crear un "objeto consola" para usarlo. Son como herramientas de uso general.
+      * **De Instancia (Stateful):** Pertenecen a un objeto específico (una instancia) y a menudo trabajan con los datos de ese objeto. Necesitas crear un objeto con `new` antes de poder llamarlos.
+  * **El Operador `new`:** Cuando usas `new`, estás haciendo tres cosas:
+    1.  Pides memoria para un nuevo objeto.
+    2.  Creas el objeto en esa dirección de memoria.
+    3.  Devuelves la "dirección" (la referencia) a ese objeto para que puedas guardarla en una variable.
+    <!-- end list -->
+    ```csharp
+    // 'Random' es la clase (el plano).
+    // 'randomGenerator' es la variable que guardará la referencia al objeto.
+    // 'new Random()' es la creación del objeto (la instancia).
+    Random randomGenerator = new Random();
+    int randomNumber = randomGenerator.Next(1, 11); // .Next() es un método de instancia.
+    ```
+  * **Parámetros vs. Argumentos:**
+      * **Parámetro:** Es la variable que se define en la **declaración del método**. Es el "espacio" que espera un valor.
+      * **Argumento:** Es el **valor real** que le pasas al método cuando lo llamas.
+  * **Métodos Sobrecargados (Overloaded):** Un mismo método puede tener varias "versiones" que se diferencian por el número y/o tipo de sus parámetros. `Console.WriteLine()` es un gran ejemplo: puedes llamarlo sin argumentos, con un string, con un número, etc.
+
+-----
+
+## ✒️ Buenas Prácticas y Convenciones de Código
+
+Escribir código que funcione es solo la mitad del trabajo. La otra mitad es escribir código que otros (y tu "yo" del futuro) puedan entender.
+
+  * **Nomenclatura de Variables:**
+      * Usa nombres descriptivos en **camelCase** (ej: `firstName`, `totalAmount`).
+      * Deben empezar con una letra o un guion bajo `_` (el `_` se reserva para casos especiales).
+      * No pueden ser palabras clave de C\# (como `string` o `if`).
+  * **Comentarios:** Usa comentarios para explicar el **"porqué"** de tu código, no el "qué". El código bien escrito ya explica qué hace; el comentario debe aclarar la intención o la razón de una decisión compleja.
+
+¡Espero que esta organización te sirva para solidificar tus conocimientos\! Sigue así, vas por excelente camino. 👍
