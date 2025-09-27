@@ -169,4 +169,77 @@ Escribir código que funcione es solo la mitad del trabajo. La otra mitad es esc
       * No pueden ser palabras clave de C\# (como `string` o `if`).
   * **Comentarios:** Usa comentarios para explicar el **"porqué"** de tu código, no el "qué". El código bien escrito ya explica qué hace; el comentario debe aclarar la intención o la razón de una decisión compleja.
 
-¡Espero que esta organización te sirva para solidificar tus conocimientos\! Sigue así, vas por excelente camino. 👍
+-----
+
+What is data?
+
+Answering the question "what is data" depends on who you ask, and in what context you're asking it.
+
+In software development, data is essentially a value that is stored in the computer's memory as a series of bits. A bit is a simple binary switch represented as a 0 or 1, or rather, "off" and "on." A single bit doesn't seem useful, however when you combine 8 bits together in a sequence, they form a byte. When used in a byte, each bit takes on a meaning in the sequence. In fact, you can represent 256 different combinations with just 8 bits if you use a binary (base-2) numeral system.
+
+
+Value vs. reference types
+
+This module focuses on the two kinds of types in C#: reference types and value types.
+
+Variables of reference types store references to their data (objects), that is they point to data values stored somewhere else. In comparison, variables of value types directly contain their data. As you learn more about C#, new details emerge related to the fundamental difference between value and reference types.
+
+
+When you need a more precise answer, you should use decimal. Each value of type decimal has a relatively large memory footprint, however performing math operations gives you a more precise result. So, you should use decimal when working with financial data or any scenario where you need an accurate result from a calculation.
+
+
+
+Start with choosing the data type to fit the data (not to optimize performance)
+
+You may be tempted to choose the data type that uses the fewest bits to store data thinking it improves your application's performance. However, some of the best advice related to application performance (that is, how fast your application runs) is to not "prematurely optimize". You should resist the temptation to guess at the parts of your code, including the selection of data types that may impact your application's performance.
+
+Many assume that because a given data type stores less information it must use less of the computer's processor and memory than a data type that stores more information. Instead, you should choose the right fit for your data, then later you can empirically measure the performance of your application using special software that provides factual insights to the parts of your application that negatively impact performance.
+
+
+--
+Convert data types using casting and conversion techniques in C#
+
+The term widening conversion means that you're attempting to convert a value from a data type that could hold less information to a data type that can hold more information. In this case, a value stored in a variable of type int converted to a variable of type decimal, doesn't lose information.
+
+When you know you're performing a widening conversion, you can rely on implicit conversion. The compiler handles implicit conversions.
+
+The term narrowing conversion means that you're attempting to convert a value from a data type that can hold more information to a data type that can hold less information.
+
+Performing Data Conversions
+
+Earlier, it was stated that a value change from one data type into another could cause a runtime exception, and you should perform data conversion. For data conversions, there are three techniques you can use:
+
+    Use a helper method on the variable
+    // string message = first.ToString() + second.ToString();
+
+    Use a helper method on the data type
+    //int sum = int.Parse(first) + int.Parse(second);
+    Use the Convert class' methods
+    //int result = Convert.ToInt32(value1) * Convert.ToInt32(value2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
