@@ -1,18 +1,13 @@
-# Resumen OOP
-
 ## **POO (Programación Orientada a Objetos)**
 Es un paradigma de programación que utiliza "objetos" para diseñar aplicaciones y programas informáticos. Se basa en encapsular datos (estado) y comportamiento (métodos) en unidades lógicas, facilitando el mantenimiento y la escalabilidad del software.
 
 ### **Clase**:
-Las clases son tipos de datos definidos por el usuario, que contienen atributos (datos) y métodos (comportamientos). Se pueden considerar como un "molde" o plantilla para crear objetos.
-<img width="747" height="477" alt="image" src="https://github.com/user-attachments/assets/e38ef544-045f-44a4-ab34-ad995221d70e" />
-
+Es la definición abstracta,es  el molde o la plantill; Define **qué** atributos y comportamientos tendrá algo, pero no existe físicamente en la memoria como un dato concreto todavía.<img width="747" height="477" alt="image" src="https://github.com/user-attachments/assets/e38ef544-045f-44a4-ab34-ad995221d70e" />
 
 ### **Objetos**:
-Son instancias concretas (ejemplares) de una clase. Cada objeto tiene sus propios valores para los atributos.
-<img width="841" height="673" alt="image" src="https://github.com/user-attachments/assets/738c73ee-aca4-451d-ae9a-cca0ed357175" />
+Es la instancia concreta creada a partir de la clase. Ocupa espacio en memoria y tiene datos específicos.<img width="841" height="673" alt="image" src="https://github.com/user-attachments/assets/738c73ee-aca4-451d-ae9a-cca0ed357175" />
 
-### Jerarquia de clases
+## Jerarquia de clases
 
 #### Clase padre, superclase o clase base:
 Clase que define atributos y comportamientos comunes (genéricos), los cuales pueden ser heredados por otras clases (llamadas hijas o subclases).
@@ -101,7 +96,7 @@ class Program
 }
 ```
 
-## Conceptos Clave
+## Pilares del POO
 
 - **Abstraccion:** Consiste en crear modelos de objetos basados en "cosas" del mundo real, pero limitados a su contexto específico, representando todos los datos necesarios para dicho contexto y omitiendo el resto.
 
@@ -110,4 +105,14 @@ class Program
 
 - **Herencia:** Mecanismo que permite crear nuevas clases basadas en una clase existente (padre), reutilizando sus atributos y comportamientos comunes. Las clases hijas pueden agregar nuevos miembros o sobrescribir los existentes.
 
-- **Polimorfismo:** es la capacidad que tiene un programa de detectar la verdadera clase de un objeto e invocar su implementación
+- **Polimorfismo:** Capacidad de objetos de diferentes clases de responder al mismo mensaje (método) de formas distintas. Permite al programa tratar a un objeto hijo como si fuera su padre, ejecutando la implementación específica correcta en tiempo de ejecución.
+Ejemplo: Un List<IPago> puede contener PagoPaypal, PagoTarjeta, PagoCripto, pero todos implementan un método Procesar().
+
+
+
+
+
+
+
+
+
