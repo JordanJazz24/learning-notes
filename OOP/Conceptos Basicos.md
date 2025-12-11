@@ -107,6 +107,24 @@ class Program
 - **Polimorfismo:** Capacidad de objetos de diferentes clases de responder al mismo mensaje (método) de formas distintas. Permite al programa tratar a un objeto hijo como si fuera su padre, ejecutando la implementación específica correcta en tiempo de ejecución.
 Ejemplo: Un List<IPago> puede contener PagoPaypal, PagoTarjeta, PagoCripto, pero todos implementan un método Procesar().
 
+## Relaciones entre clases
+
+### **Depedencia:** 
+La dependencia es el tipo de relación más básica y débil entre clases. Existe una dependencia entre dos clases cuando ciertos cambios en la definición de una clase puede provocar modifi- caciones en otra.
+<img width="1027" height="266" alt="image" src="https://github.com/user-attachments/assets/6f30c828-516a-426c-ade6-a3d753cf21b4" />
+
+### **Asociacion:** 
+La asociación puede verse como un tipo especializado de dependencia, en la que un objeto siempre tiene acceso a los objetos con los que interactúa, mientras que la dependencia simple no establece un vínculo permanente entre los objetos
+<img width="1185" height="340" alt="image" src="https://github.com/user-attachments/assets/bd2a9cdf-4c08-4560-be6b-b4544b2c190d" />
+<img width="915" height="333" alt="image" src="https://github.com/user-attachments/assets/de788c11-d0dd-40c5-8840-a000ef428336" />
+
+### **Agregacion:** 
+La agregación es un tipo especializado de asociación que representa relaciones “uno a muchos”, “muchos a muchos” o “todo a parte” entre múltiples objetos, mientras que una asociación simple describe relaciones entre un par de objetos.
+<img width="1119" height="295" alt="image" src="https://github.com/user-attachments/assets/61309f88-c14d-46a4-842f-b0033a533abc" />
+
+### **Composicion :** 
+La composición es un tipo específico de agregación en la que un objeto se compone de una o más instancias del otro. La diferencia entre ésta y otras relaciones está en que el componente sólo puede existir como parte del contenedor.
+<img width="1218" height="387" alt="image" src="https://github.com/user-attachments/assets/47b26332-943b-4af9-9190-93b1b0a54524" />
 
 
 
