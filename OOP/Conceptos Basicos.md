@@ -1,6 +1,7 @@
 # Resumen OOP
 
-## Conceptos Clave
+## **POO (Programación Orientada a Objetos)**
+Es un paradigma de programación que utiliza "objetos" para diseñar aplicaciones y programas informáticos. Se basa en encapsular datos (estado) y comportamiento (métodos) en unidades lógicas, facilitando el mantenimiento y la escalabilidad del software.
 
 ### **Clase**:
 Las clases son tipos de datos definidos por el usuario, que contienen atributos (datos) y métodos (comportamientos). Se pueden considerar como un "molde" o plantilla para crear objetos.
@@ -102,10 +103,11 @@ class Program
 
 ## Conceptos Clave
 
-- **Abstraccion:** Consiste en crear modelos de objetos basados en "cosas" del mundo real, pero limitado a su contexto espefiica, represetando todos los datos necesarios de su contexto el resto se omite.
-- **Encapsulamiento:** Cuando un objeto esconsu su estado o compartmientos de otros objetos, permitiendo sua acceso crontolado mediante interfaces al resto del programa
+- **Abstraccion:** Consiste en crear modelos de objetos basados en "cosas" del mundo real, pero limitados a su contexto específico, representando todos los datos necesarios para dicho contexto y omitiendo el resto.
+
+- **Encapsulamiento:** Ocultar el estado o implementacion interna de un objeto, permitiendo el acceso controlado únicamente a través de interfaces públicas (métodos/propiedades) para proteger la integridad de los datos
 <img width="619" height="590" alt="image" src="https://github.com/user-attachments/assets/41ae1851-7ae4-4375-be85-2583432e515b" />
 
-- **Herencia:** Permite reutilizar código declarnado  clases padre con atributos y comaprtmientos comunes que luego sus clases hijas hereden y solo agregan o sobreescriben los abritbutos o metodos nuevos.
+- **Herencia:** Mecanismo que permite crear nuevas clases basadas en una clase existente (padre), reutilizando sus atributos y comportamientos comunes. Las clases hijas pueden agregar nuevos miembros o sobrescribir los existentes.
 
 - **Polimorfismo:** es la capacidad que tiene un programa de detectar la verdadera clase de un objeto e invocar su implementación
