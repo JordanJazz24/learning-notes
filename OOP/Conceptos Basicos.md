@@ -101,7 +101,6 @@ class Program
 - **Abstraccion:** Consiste en crear modelos de objetos basados en "cosas" del mundo real, pero limitados a su contexto específico, representando todos los datos necesarios para dicho contexto y omitiendo el resto.
 
 - **Encapsulamiento:** Ocultar el estado o implementacion interna de un objeto, permitiendo el acceso controlado únicamente a través de interfaces públicas (métodos/propiedades) para proteger la integridad de los datos
-<img width="619" height="590" alt="image" src="https://github.com/user-attachments/assets/41ae1851-7ae4-4375-be85-2583432e515b" />
 
 - **Herencia:** Mecanismo que permite crear nuevas clases basadas en una clase existente (padre), reutilizando sus atributos y comportamientos comunes. Las clases hijas pueden agregar nuevos miembros o sobrescribir los existentes.
 
