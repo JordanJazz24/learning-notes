@@ -1,64 +1,67 @@
-# Technical Assessment 
+# Technical Assessment
 
-**Candidate:** Jordan Alvarez Gonzalez
+**Candidate:** Jordan Alvarez Gonzalez  
 **Date:** 19/12/2025
 
 ## Part 1 – Code Analysis
 
 ### Bug
-El método empieza a iterar la lista de pagos sin verificar si `payments` no es nulo.  
-Además, no se valida que los campos `payment.amount` o `payment.status` tengan valores válidos o existan realmente.  
-Esto puede provocar que el programa falle en tiempo de ejecución o que el método no se comporte como se espera si los datos vienen en un formato incorrecto.
+The method starts iterating over the list of payments without checking whether `payments` is null.  
+Additionally, it does not validate whether the fields `payment.amount` or `payment.status` exist or contain valid values.  
+This could cause the program to fail at runtime or make the method behave unexpectedly if the data comes in an incorrect format.
 
 ---
 
 ### Performance
-Se debe investigar qué hace exactamente el método `save(payment)`, ya que si su función es guardar los datos en la base de datos y se reciben muchos pagos (por ejemplo 10.000), guardar cada pago uno por uno puede generar mucha latencia.  
-Este tipo de implementación puede ralentizar el funcionamiento del sistema debido a la cantidad de operaciones contra la base de datos.
+It is necessary to investigate what the `save(payment)` method does exactly, since if its purpose is to persist data in the database and a large number of payments are received (for example, 10,000), saving each payment one by one could generate high latency.  
+This type of implementation can slow down the system due to the number of operations performed against the database.
 
 ---
 
 ### Data Congruence
-La definición de la variable `total` da a entender que se están utilizando números enteros, lo cual no es lo más adecuado para manejar datos financieros.  
-Sería más apropiado utilizar un tipo de dato decimal, ya que es más preciso y ayuda a evitar posibles errores contables en el sistema.
+The definition of the `total` variable suggests that integer numbers are being used, which is not the most appropriate option for handling financial data.  
+It would be more suitable to use a decimal data type, as it is more precise and helps avoid possible accounting errors in the system.
 
-Además, teniendo en cuenta que el procesamiento de pagos es una operación crítica que no puede quedar a medias, sería importante asegurarse de que el método `save(payment)` sea atómico a nivel de base de datos.  
-De esta forma se evita que queden datos inconsistentes si ocurre algún fallo durante la ejecución.
+Additionally, considering that payment processing is a critical operation that cannot be left halfway, it is important to ensure that the `save(payment)` method is atomic at the database level.  
+This helps prevent inconsistent data if a failure occurs during execution.
 
 ---
 
 ### Security
-Al tratarse de un método que maneja pagos, es importante validar los datos de entrada para asegurarse de que no estén siendo manipulados.  
-También se debería controlar qué partes del sistema tienen acceso a este método, ya que no debería ser accesible de forma pública ni permitir modificaciones indebidas en los pagos.
+Since this method handles payments, it is important to validate the input data to ensure it is not being manipulated.  
+It is also necessary to control which parts of the system have access to this method, as it should not be publicly accessible or allow improper modifications to payments.
 
 ---
 
 ### Maintainability
-El código tiene un alto acoplamiento, ya que el estado `"completed"` está definido de forma hardcodeada.  
-Si en el futuro se agregan nuevos estados o cambia la lógica del negocio, habría que modificar directamente este método.  
-Abstraer esta lógica permitiría que el código sea más fácil de mantener y extender.
+The code has a high level of coupling, since the `"completed"` state is hardcoded.  
+If new states are added in the future or the business logic changes, this method would need to be modified directly.  
+Abstracting this logic would make the code easier to maintain and extend.
 
+---
 
 ## Part 2 – Change of Requirements
 
 ### 1. What new problem does this introduce?
-Esto podría generar pagos duplicados o que el total calculado no represente el estado real de los pagos, afectando directamente la consistencia de los datos y el negocio.
+This could generate duplicated payments or cause the calculated total to not represent the real state of the payments, directly affecting data consistency and the business.
 
 ---
 
 ### 2. What concept or strategy would you use to solve it?
-Para solucionar este problema se podría utilizar el concepto de idempotencia.  
-De esta forma, aunque el mismo pago llegue varias veces al sistema, el resultado final sería siempre el mismo y el pago no se procesaría más de una vez.
+To solve this problem, the concept of idempotency could be used.  
+This way, even if the same payment reaches the system multiple times, the final result would always be the same and the payment would not be processed more than once.
 
 ---
 
 ### 3. What additional data or information would be required?
-Sería necesario contar con algún identificador único del pago y la fecha del último intento del pago, que permita reconocer si ya fue procesado anteriormente.  
+It would be necessary to have a unique identifier for the payment and the date of the last payment attempt, which would allow identifying whether it has already been processed.
+
+---
 
 ## Part 3 – Small Implementation
 
 ```csharp
- int AverageNonNegative(List<int> intList){
+int AverageNonNegative(List<int> intList){
     if (intList == null)
         throw new ArgumentNullException(nameof(intList));
 
@@ -76,49 +79,83 @@ Sería necesario contar con algún identificador único del pago y la fecha del 
 }
 ```
 
-
+---
 
 ### 1. Why did you implement it this way?
-Pienso que lo principal para resolver el problema es tener en cuenta que la lista no puede ser nula y que también puede estar vacía o contener solo valores negativos.
-Al principio intenté usar sintaxis LINQ de C#, pero me di cuenta de que estaba realizando dos iteraciones para obtener el resultado. Analizando esto, opté por usar un foreach manual, ya que es más simple y legible.
-De esta forma utilizo solo dos variables, una para acumular la suma de los valores no negativos y otra como contador. Al final realizo un return simple, verificando si el contador es cero (lista vacía o solo valores negativos), en cuyo caso devuelvo 0, y si no, devuelvo la división entre la suma y el contador.
+
+I think that the main point to solve the problem is to consider that the list cannot be null and that it can also be empty or contain only negative values.
+At first, I tried to use C# LINQ syntax, but I realized that I was performing two iterations to obtain the result. After analyzing this, I decided to use a manual `foreach`, since it is simpler and more readable.
+
+In this way, I use only two variables: one to accumulate the sum of non-negative values and another as a counter. At the end, I perform a simple return, checking whether the counter is zero (empty list or only negative values), in which case I return 0; otherwise, I return the division between the sum and the counter.
+
+---
 
 ### 2. What happens if the input list is empty?
-Si la lista está vacía o solo contiene valores negativos, el contador queda en cero.
-En ese caso, devolver directamente la división podría generar una operación inválida, por lo que se valida esta condición antes de realizar el cálculo y se retorna 0 como resultado.
+
+If the list is empty or contains only negative values, the counter remains at zero.
+In that case, returning the division directly could result in an invalid operation, so this condition is validated before performing the calculation and 0 is returned as the result.
+
+---
 
 ### 3. How would you improve it if performance became critical?
-Por simplicidad utilicé una lista como estructura de datos, pero si el volumen de información fuera muy grande se podría evaluar el uso de estructuras más livianas, como un array.
-De todas formas, la lógica principal se mantendría igual, ya que el método ya recorre la colección una sola vez y evita operaciones innecesarias. A mi entender, esta solución es lo suficientemente eficiente sin llegar a utilizar técnicas más complejas.
+
+For simplicity, I used a list as the data structure, but if the volume of information were very large, the use of lighter structures such as an array could be evaluated.
+In any case, the main logic would remain the same, since the method already iterates over the collection only once and avoids unnecessary operations. In my understanding, this solution is efficient enough without resorting to more complex techniques.
+
+---
 
 ## Part 4 – Conceptual Understanding
 
 ### 1. Backend: What is idempotency and why is it important in backend systems?
-Idempotencia, en palabras muy sencillas, es un mecanismo que permite que un mismo proceso pueda ejecutarse varias veces pero que el resultado final sea siempre el mismo, como si se hubiera ejecutado una sola vez.  
-Esto en el backend es muy importante, ya que evita que una misma acción genere efectos duplicados cuando, por ejemplo, Un caso común es cuando un usuario hace varios clicks sobre un botón y el sistema recibe la misma acción muchas veces, pero solo debería ejecutarse una vez.
+
+Idempotency, in very simple words, is a mechanism that allows the same process to be executed multiple times while ensuring that the final result is always the same, as if it had been executed only once.
+This is very important in backend systems, since it prevents a single action from generating duplicated effects when, for example, a common case is when a user clicks a button multiple times and the system receives the same action many times, but it should only be executed once.
 
 ---
 
 ### 2. Frontend: Explain the difference between client-side and server-side rendering, and give an example of when each is useful.
-CSR se usa en aplicaciones web cuya principal intención es ser fluidas y dinámicas, ya que el navegador recibe una página base y luego se van actualizando pequeños elementos de la interfaz usando JavaScript, sin recargar toda la página.
 
-SSR se utiliza cuando se necesita que el contenido principal de la página se genere desde el servidor antes de enviarse al cliente.  
-Este enfoque es útil cuando se busca una carga inicial más rápida, mayor manejo de la seguridad o mayor control sobre el contenido de la pagina.
+Client-side rendering (CSR) is used in web applications whose main goal is to be fluid and dynamic, since the browser receives a base page and then small interface elements are updated using JavaScript, without reloading the entire page.
+
+Server-side rendering (SSR) is used when the main content of the page needs to be generated on the server before being sent to the client.
+This approach is useful when faster initial loading, better security handling, or greater control over the page content is required.
 
 ---
 
 ### 3. Databases: What is a foreign key and why is it important for data integrity?
-Una foreign key es importante porque es la base de las bases de datos relacionales.  
-Básicamente representa una relación o conexión entre dos tablas, indicando que los datos de una tabla dependen de otra.  
-Esto es importante para la integridad de los datos, ya que evita que existan registros inválidos y asegura que las relaciones entre tablas se mantengan correctas.
 
+A foreign key is important because it is the foundation of relational databases.
+Basically, it represents a relationship or connection between two tables, indicating that the data in one table depends on another.
+This is important for data integrity, since it prevents invalid records from existing and ensures that relationships between tables remain consistent.
 
+---
 
+## Part 5 – Technical Judgment
 
+### 1. What was the most difficult part of this assessment and why?
 
+The most difficult part of this assessment, and the one that took me the most time, was the code analysis. This is because it is not only about understanding what the code does, but also about thinking of possible problems in a real future production environment, which is not always clear without having the full business logic context.
 
+---
 
+### 2. What assumption did you make that could be wrong?
 
+I assumed that the input data, such as the list of payments and the values of each payment, arrive in a reliable and expected format.
+In a real system, this data could be incomplete or contain incorrect values, which would require additional validations that were not considered in this exercise.
 
+---
 
+### 3. What would most likely fail first in production?
 
+Most likely, the first thing to fail in production would be error handling and data consistency in the presence of partial failures, such as network issues or errors when saving information.
+
+---
+
+## Part 6 – Learning Mindset
+
+### What I am currently learning
+
+I am currently learning more about how microservices and monoliths work, as well as deepening my knowledge of cloud deployment using Kubernetes.
+This topic interests me because these technologies are widely used today by many companies, and I consider it important to better prepare myself in order to understand how real systems are designed and deployed.
+
+My goal is to continue learning about these tools to become a more complete programmer.
