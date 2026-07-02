@@ -294,7 +294,246 @@ Al usar `Array.Clear()` en un array de strings, los elementos se establecen a `n
     string result = string.Join(" | ", names); // result será "Ana | Luis | Eva"
     ```
 
+# 🌐 Formateo de Cadenas y Datos (String Formatting)
 
+C# ofrece dos maneras principales de inyectar variables dentro de un texto: el estilo clásico (**Composite Formatting**) y el estilo moderno (**String Interpolation**). Ambas son perfectamente válidas, pero tienen casos de uso distintos.
 
+## 1. Formateo Compuesto (Composite Formatting)
+
+Es la forma tradicional. Utiliza marcadores de posición numerados (llamados *tokens*) dentro de una cadena base, y luego se le pasan las variables en orden como argumentos. El conteo siempre empieza en `{0}`.
+
+- Funciona con `string.Format()` o directamente dentro de `Console.WriteLine()`.
+
+```csharp
+string first = "Hello";
+string second = "World";
+// El {0} se reemplaza por 'first' y el {1} por 'second'
+string result = string.Format("{0} {1}!", first, second);
+```
+
+## 2. Interpolación de Cadenas (String Interpolation)
+
+Es la sintaxis moderna (anteponiendo el símbolo `$`). En lugar de números, se coloca el nombre de la variable directamente dentro de las llaves `{}`. Es mucho más legible y es la opción recomendada por defecto en el día a día.
+
+```csharp
+string first = "Hello";
+string second = "World";
+string result = $"{first} {second}!"; // Output: Hello World!
+```
+
+---
+
+## 🌍 Especificadores de Formato Numérico y Cultural
+
+Dentro de las llaves (ya sea en formato compuesto o interpolado) se puede añadir un especificador de formato usando los dos puntos `:` 
+
+**Sintaxis:** `{variable:Formato}`
+
+> ⚠️ **Nota del Senior:** El resultado de estos formatos depende de la cultura (*Culture-Specific*) de la computadora donde se ejecuta el código. Por ejemplo, la cultura `en-US` (Estados Unidos) usa el punto `.` para decimales y la coma `,` para miles, además del símbolo `$`. La cultura `es-ES` (España) o `es-MX` (México) cambiará los símbolos y la moneda automáticamente.
+
+### 💰 Formateo de Moneda (`:C`)
+
+Formatea un número (`int` o `decimal`) como dinero, añadiendo el símbolo de moneda correspondiente y dos decimales por defecto.
+
+```csharp
+decimal price = 123.45m;
+Console.WriteLine($"Price: {price:C}"); // Output (en-US): $123.45
+```
+
+### 🔢 Formateo de Números Generales (`:N`)
+
+Hace que los números grandes sean más legibles añadiendo separadores de miles. Por defecto muestra 2 decimales.
+
+**Control de precisión:** Se puede añadir un número justo después del especificador para forzar la cantidad de decimales exactos que se desean mostrar (ej: `:N4`).
+
+```csharp
+decimal measurement = 123456.78912m;
+Console.WriteLine($"Default: {measurement:N}");   // Output: 123,456.79 (Redondea a 2)
+Console.WriteLine($"Preciso: {measurement:N4}"); // Output: 123,456.7891 (Fuerza 4)
+```
+
+### 📊 Formateo de Porcentajes (`:P`)
+
+Multiplica automáticamente el valor por 100, le añade el símbolo de porcentaje `%` y lo redondea a 2 decimales por defecto. Al igual que con `:N`, se pueden controlar los decimales agregando un número (ej: `:P2`).
+
+```csharp
+decimal tax = .36785m;
+Console.WriteLine($"Tax rate: {tax:P2}"); // Output: 36.79%
+```
+
+---
+
+## 🔀 Combinando Enfoques
+
+Se pueden realizar operaciones matemáticas directamente dentro de las llaves y aplicarles formato en la misma línea, o ir acumulando texto formateado en una misma variable.
+
+```csharp
+decimal price = 67.55m;
+decimal salePrice = 59.99m;
+
+// Guardamos el texto formateado en una variable usando string.Format
+string yourDiscount = string.Format("You saved {0:C2} off the regular {1:C2} price. ", 
+                                     (price - salePrice), price);
+
+// Concatenamos usando interpolación y formato de porcentaje en la misma línea
+yourDiscount += $"A discount of {(price - salePrice)/price:P2}!";
+```
+
+---
+
+## 🧰 Métodos Incorporados para Manipulación de Strings
+
+Los strings en C# son **inmutables** (no cambian en memoria, cada modificación crea un string nuevo bajo el capó). Para facilitarnos la vida, la clase `string` tiene un arsenal de métodos útiles agrupados por su comportamiento:
+
+| Categoría | Métodos Clave | ¿Qué hacen? |
+|-----------|---------------|-----------|
+| **Alineación y Espacios** | `PadLeft()`, `PadRight()` | Añaden espacios en blanco (o caracteres) a la izquierda o derecha para alinear columnas de texto en pantallas o reportes. |
+| **Limpieza y Comparación** | `Trim()`, `TrimStart()`, `TrimEnd()`, `Length` | Eliminan los espacios vacíos innecesarios al inicio o al final del texto. `Length` indica cuántos caracteres tiene la cadena. |
+| **Búsqueda e Inspección** | `Contains()`, `StartsWith()`, `EndsWith()`, `Substring()` | Devuelven un booleano (`true`/`false`) si el texto contiene, empieza o termina con cierta palabra. `Substring()` extrae un fragmento del texto indicando la posición. |
+| **Modificación de Contenido** | `Replace()`, `Insert()`, `Remove()` | Reemplazan caracteres por otros, insertan texto en una posición específica o eliminan fragmentos de la cadena. |
+| **Conversión a Estructuras** | `Split()`, `ToCharArray()` | Convierten el string en piezas manejables, ya sea un array de palabras (`string[]`) o un array de letras individuales (`char[]`). |
+
+---
+
+# 🔍 Búsqueda Avanzada y Manipulación de Substrings
+
+Esta sección cubre cómo localizar caracteres, extraer fragmentos de texto específicos mediante límites y limpiar cadenas utilizando métodos avanzados de la clase `string`.
+
+---
+
+## 1. Métodos de Localización de Índices
+
+Para extraer información de un texto, primero debemos saber exactamente dónde se encuentra. C# calcula las posiciones utilizando un índice basado en cero (`0-indexed`).
+
+### `IndexOf()`
+
+Busca de izquierda a derecha y devuelve la posición de la **primera ocurrencia** de un carácter o cadena. Si no encuentra nada, devuelve `-1`.
+
+```csharp
+string text = "Hello World World";
+int position = text.IndexOf("World");
+Console.WriteLine(position); // Output: 6
+```
+
+### `LastIndexOf()`
+
+Busca de derecha a izquierda (desde el final de la cadena hacia el principio) y devuelve la posición de la **última ocurrencia**.
+
+```csharp
+string text = "Hello World World";
+int position = text.LastIndexOf("World");
+Console.WriteLine(position); // Output: 12
+```
+
+### `IndexOfAny(char[])`
+
+Examina la cadena y devuelve el índice de la primera coincidencia de **cualquier** carácter que se encuentre dentro del array proporcionado. Es ideal para buscar múltiples tipos de símbolos a la vez.
+
+```csharp
+string text = "Hello123World456";
+char[] digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+int position = text.IndexOfAny(digits);
+Console.WriteLine(position); // Output: 5 (posición del '1')
+```
+
+> 💡 **Tip de Sobrecarga:** `IndexOf` e `IndexOfAny` aceptan un parámetro opcional llamado `startPosition`. Esto le dice al método que ignore el inicio de la cadena y comience a buscar a partir de ese índice en adelante.
+
+```csharp
+string text = "Hello World World";
+int position = text.IndexOf("World", 7); // Comienza a buscar desde posición 7
+Console.WriteLine(position); // Output: 12
+```
+
+---
+
+## 2. Extracción de Substrings con `Substring()`
+
+El método `Substring()` corta una cadena y devuelve un fragmento. Su funcionamiento requiere entender sus parámetros: `Substring(inicio, longitud)`.
+
+### Algoritmo para extraer texto entre símbolos
+
+Para extraer el contenido dentro de un paréntesis sin incluir el paréntesis mismo, se debe calcular la longitud matemática del texto interior y desplazar el índice inicial en `+1`:
+
+```csharp
+string message = "Find what is (inside the parentheses)";
+
+int openingPosition = message.IndexOf('(');
+int closingPosition = message.IndexOf(')');
+
+// Sumamos 1 para saltarnos el carácter '(' y no incluirlo en el resultado
+openingPosition += 1; 
+
+int length = closingPosition - openingPosition;
+Console.WriteLine(message.Substring(openingPosition, length)); 
+// Output: inside the parentheses
+```
+
+### Extracción múltiple en bucle
+
+Cuando una cadena tiene múltiples bloques de texto que queremos extraer, combinamos `IndexOf()`, un bucle `while` y una sobrecarga de `Substring(inicio)` que recorta la cadena eliminando lo que ya procesamos:
+
+```csharp
+string message = "(What if) there are (more than) one (set of parentheses)?";
+
+while (true)
+{
+    int openingPosition = message.IndexOf('(');
+    if (openingPosition == -1) break; // Si ya no hay más '(', salimos del bucle
+
+    openingPosition += 1;
+    int closingPosition = message.IndexOf(')');
+    int length = closingPosition - openingPosition;
+    Console.WriteLine(message.Substring(openingPosition, length));
+
+    // Modificamos 'message' para que contenga solo el texto restante sin procesar
+    message = message.Substring(closingPosition + 1);
+}
+// Output:
+// What if
+// more than
+// set of parentheses
+```
+
+---
+
+## 3. Modificación y Limpieza: `Remove()` vs `Replace()`
+
+C# proporciona métodos directos para alterar el contenido de un string (recordando que los strings son **inmutables** y estos métodos devuelven una nueva cadena en memoria).
+
+### `Remove(inicio, longitud)`
+
+Elimina una cantidad específica de caracteres a partir de una posición exacta. Se usa cuando la estructura física del texto es fija (por ejemplo, archivos de ancho fijo o registros de bases de datos antiguas).
+
+```csharp
+string text = "Hello World";
+string result = text.Remove(5, 6); // Elimina 6 caracteres empezando en posición 5
+Console.WriteLine(result); // Output: Hello
+```
+
+### `Replace(antiguo, nuevo)`
+
+Busca todas las ocurrencias de una subcadena y las reemplaza por otra. Si se reemplaza por una cadena vacía `""`, funciona como un eliminador global.
+
+```csharp
+// Ejemplo de Replace para limpiar datos estructurados
+string message = "This--is--ex-amp-le--da-ta";
+message = message.Replace("--", " ");
+message = message.Replace("-", "");
+Console.WriteLine(message); 
+// Output: This is example data
+```
+
+### Comparativa de uso
+
+| Método | Caso de Uso | Ejemplo |
+|--------|-----------|---------|
+| `Remove()` | Eliminar por posición exacta | Eliminar caracteres específicos en una posición conocida |
+| `Replace()` | Buscar y reemplazar patrones | Limpiar caracteres especiales o normalizar formato |
+
+---
+
+## 💡 Consejo Profesional
+
+Cuando trabajes con extracción de substrings en bucles, siempre verifica que los índices sean válidos (`>= 0`) para evitar excepciones. Una estrategia común es usar `IndexOf()` primero para verificar que existe el carácter buscado antes de intentar procesarlo.
 
 
