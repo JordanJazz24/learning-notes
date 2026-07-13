@@ -532,8 +532,50 @@ Console.WriteLine(message);
 
 ---
 
-## 💡 Consejo Profesional
+# 🎛️ Parámetros Opcionales y Argumentos Nombrados
 
-Cuando trabajes con extracción de substrings en bucles, siempre verifica que los índices sean válidos (`>= 0`) para evitar excepciones. Una estrategia común es usar `IndexOf()` primero para verificar que existe el carácter buscado antes de intentar procesarlo.
+---
+
+## Parámetros Opcionales
+
+Un parámetro es **opcional** cuando tiene un valor por defecto. Los parámetros **requeridos deben venir primero**.
+
+```csharp
+void RSVP(string name, int partySize = 1, string allergies = "none", bool inviteOnly = true)
+{
+    Console.WriteLine($"Guest: {name}, Party: {partySize}, Allergies: {allergies}");
+}
+
+RSVP("Alice");                           // Usa todos los valores por defecto
+RSVP("Bob", 3);                          // Omite allergies e inviteOnly
+RSVP("Charlie", 2, "gluten");            // Omite inviteOnly
+RSVP("Diana", 4, "nuts", false);         // Especifica todos
+```
+
+---
+
+## Argumentos Nombrados
+
+Los **argumentos nombrados** mejoran la legibilidad al especificar explícitamente qué parámetro recibe cada valor.
+
+```csharp
+// ❌ Confuso
+RSVP("Linh", 2, "none", false);
+
+// ✅ Claro
+RSVP(name: "Linh", partySize: 2, allergies: "none", inviteOnly: false);
+```
+
+---
+
+## Combinando Argumentos Posicionales y Nombrados
+
+| Válido ✅ | Inválido ❌ |
+|---------|----------|
+| `RSVP("Linh", 2, allergies: "none")` | `RSVP(name: "Linh", 2)` |
+| `RSVP("Linh", inviteOnly: false)` | `RSVP(2, "Linh")` |
+| `RSVP(name: "Linh", allergies: "nuts")` | Posicionales **NO** pueden seguir a nombrados |
+
+**Regla:** Los argumentos **posicionales deben venir primero** y respetando el orden de los parámetros.
 
 
