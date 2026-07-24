@@ -579,3 +579,93 @@ RSVP(name: "Linh", partySize: 2, allergies: "none", inviteOnly: false);
 **Regla:** Los argumentos **posicionales deben venir primero** y respetando el orden de los parámetros.
 
 
+## 🛡️ Depuración, Pruebas y Manejo de Excepciones
+
+Esta sección cubre el ciclo de estabilidad del software: cómo aseguramos que el código funcione (testing), cómo encontramos las fallas si no lo hace (debugging) y cómo gestionamos los errores inevitables en tiempo de ejecución (exception handling).
+
+---
+
+### 1. Conceptos Fundamentales: Errores vs. Excepciones
+
+* **Build Errors (Errores de Compilación):** Errores de sintaxis o tipo (por ejemplo, falta un `;` o usar un tipo no válido). Ocurren *antes* de que el programa se ejecute y son detectados por el compilador.
+* **Exceptions (Excepciones):** Errores que ocurren *mientras* la aplicación se está ejecutando (Runtime). Por ejemplo, intentar dividir por cero, falta de conexión a base de datos o intentar acceder a un archivo que no existe.
+
+> 🧠 **Manejo de Excepciones (Exception Handling):** Es el proceso mediante el cual el desarrollador anticipa y gestiona estos problemas en tiempo de ejecución usando bloques `try-catch-finally`, evitando que la aplicación falle catastróficamente ("crash") ante el usuario final.
+
+---
+
+### 2. Clasificación del Software Testing
+
+El testing valida que el software cumpla con sus requerimientos. Se divide en dos grandes categorías:
+
+| Categóría | Descripción | Ejemplos |
+| --- | --- | --- |
+| **Pruebas Funcionales** | Verifican **QUÉ** hace el sistema (si cumple con las reglas de negocio y comportamiento esperado). | • **Unit Testing** (pruebas aisladas de un método/clase, responsabilidad típica del dev).<br>
+
+<br>• **Integration Testing** (prueba interacción entre componentes).<br>
+
+<br>• **System & Acceptance Testing** (E2E / Validación de negocio). |
+| **Pruebas No Funcionales** | Verifican **CÓMO** lo hace (rendimiento, seguridad, comportamiento en carga). | • **Performance Testing**<br>
+
+<br>• **Security Testing**<br>
+
+<br>• **Usability & Compatibility Testing** |
+
+> 💡 **Enfoque Moderno:** En metodologías como **TDD (Test-Driven Development)**, las pruebas unitarias se escriben *antes* de escribir el código de producción.
+
+---
+
+### 3. Depuración de Código (Debugging)
+
+El **debugging** es el proceso de aislar, diagnosticar y corregir comportamientos inesperados o excepciones en tiempo de ejecución.
+
+* **❌ Práctica a evitar:** Llenar el código de `Console.WriteLine()` para "adivinar" variables o releer el código 10 veces.
+* **✅ Práctica profesional:** Utilizar el **Debugger** del IDE (Visual Studio / VS Code).
+* **Breakpoints (Puntos de interrupción):** Pausan la ejecución en una línea exacta.
+* **Step Over / Step Into / Step Out:** Permiten avanzar línea por línea o entrar dentro de funciones.
+* **Watch / Immediate Window:** Permite inspeccionar el estado exacto de variables y memoria en tiempo real.
+
+
+
+---
+
+### 4. La Clase `Exception` en C# y .NET
+
+Todas las excepciones en C# son objetos que heredan de la clase base `System.Exception`.
+
+```csharp
+try
+{
+    // Código potencialmente peligroso
+    int result = int.Parse("ABC"); 
+}
+catch (FormatException ex)
+{
+    // Manejo específico del error
+    Console.WriteLine($"Error de formato: {ex.Message}");
+}
+catch (Exception ex)
+{
+    // Captura genérica de cualquier otra excepción no prevista
+    Console.WriteLine($"Error inesperado: {ex.Message}");
+}
+finally
+{
+    // Código que SIEMPRE se ejecuta (ideal para liberar recursos, cerrar archivos o conexiones)
+    Console.WriteLine("Limpieza terminada.");
+}
+
+```
+
+#### Propiedades clave de un objeto `Exception`:
+
+* **`Message`:** Texto explicativo del error.
+* **`StackTrace`:** La cadena de llamadas a métodos que provocaron el error (vital para saber la línea exacta de la falla).
+* **`InnerException`:** La excepción original si fue capturada y re-envuelta en otra.
+
+---
+
+## 💡 Consejo de Arquitectura Senior:
+
+1. **No uses excepciones para controlar el flujo normal:** Las excepciones son **costosas en rendimiento**. No uses `try-catch` para validar si un string es número; usa `int.TryParse()` en su lugar.
+2. **Atrapa solo las excepciones que puedes manejar:** Si capturas una excepción solo para tragarla (`catch { }`) sin registrarla ni solucionarla, estás escondiendo bugs graves en producción (patrón conocido como *Exception Swallowing*).
