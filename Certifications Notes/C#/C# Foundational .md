@@ -698,3 +698,45 @@ Define cómo VS Code compila y ejecuta la aplicación antes de conectar el depur
   * **`internalConsole`** *(Default)*: Salida rápida a *Debug Console*. **No permite** `Console.ReadLine()`.
   * **`integratedTerminal`**: Usa la terminal integrada. **Requerido si la app lee datos del usuario**.
   * **`externalTerminal`**: Abre una ventana de comandos independiente del SO.
+ 
+
+## 🛑 Patrones de Manejo de Excepciones y Desenredado de Pila (Stack Unwinding)
+
+### 1. Patrones Principales de Manejo de Excepciones
+
+* **`try-catch`**: Captura y maneja los errores que ocurren en el bloque `try`. Se pueden definir múltiples bloques `catch` para distintos tipos de excepción.
+* **`try-finally`**: Garantiza la ejecución de código de limpieza (liberación de memoria, archivos, conexiones) sin importar si ocurre un error o no.
+* **`try-catch-finally`**: El patrón completo. Adquiere recursos en `try`, gestiona los errores en `catch` y libera los recursos en `finally`.
+
+---
+
+### 2. Orden de Ejecución y Desenredado de Pila (Stack Unwinding)
+
+Cuando se lanza una excepción en C#, el CLR de .NET busca la cláusula `catch` más cercana que pueda manejarla, comenzando desde el método actual y descendiendo por la **pila de llamadas (Call Stack)**.
+
+> ⚠️ **Regla de Ejecución de `finally`:** Antes de ejecutar el código dentro de un bloque `catch`, el runtime ejecuta primero **todos los bloques `finally`** asociados en el camino de la pila, comenzando por el más cercano al lugar del error. Si no se encuentra ningún `catch` en toda la pila de llamadas, la aplicación se detiene abruptamente (crash).
+
+---
+
+### 3. Propiedades Clave de la Clase `Exception`
+
+C# provee acceso a metadatos detallados a través del objeto de excepción:
+
+| Propiedad | Descripción |
+| :--- | :--- |
+| **`Message`** | Explicación textual legible del motivo del error. |
+| **`StackTrace`** | Rastreo de la cadena de llamadas a métodos y líneas exactas donde ocurrió el error. |
+| **`InnerException`** | Excepción previa que desencadenó la excepción actual (preserva la cadena de errores). |
+| **`Source`** | Nombre de la aplicación o del ensamblado que generó la falla. |
+| **`TargetSite`** | El método exacto que lanzó la excepción. |
+| **`Data`** | Diccionario de pares clave-valor con datos arbitrarios sobre el contexto del error. |
+| **`HelpLink`** | URL hacia documentación con más detalles sobre la falla. |
+| **`HResult`** | Código numérico estándar asignado al tipo específico de error. |
+
+---
+
+### 4. ¿Cuándo NO es deseable continuar tras una excepción?
+
+No todos los errores deben ser silenciados para continuar la ejecución del programa. Si un proceso consta de dos partes dependientes (*Pasos A y B*), y el **Paso A falla**, **no se debe continuar con el Paso B**.
+
+En estos escenarios, la mejor práctica es interrumpir el flujo, revertir cambios (*rollback*) si aplica y mostrar al usuario un mensaje explicativo, evitando operar sobre datos corruptos o incompletos.
