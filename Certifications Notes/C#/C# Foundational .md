@@ -669,3 +669,32 @@ finally
 
 1. **No uses excepciones para controlar el flujo normal:** Las excepciones son **costosas en rendimiento**. No uses `try-catch` para validar si un string es número; usa `int.TryParse()` en su lugar.
 2. **Atrapa solo las excepciones que puedes manejar:** Si capturas una excepción solo para tragarla (`catch { }`) sin registrarla ni solucionarla, estás escondiendo bugs graves en producción (patrón conocido como *Exception Swallowing*).
+
+## 🐞 Depuración (Debugging) en C# con VS Code
+
+### 1. Integración con el .NET Runtime
+El depurador de VS Code no lee código fuente línea por línea; se conecta dinámicamente al **.NET Runtime (CLR)** mediante APIs internas para controlar hilos, pausar la ejecución y evaluar la memoria en tiempo real.
+
+---
+
+### 2. Tipos de Breakpoints
+
+| Tipo | Descripción | Uso Práctico |
+| :--- | :--- | :--- |
+| **Estándar** | Pausa la ejecución siempre que pasa por esa línea. | Inspección general. |
+| **Conditional** | Se activa solo si se cumple una condición (`num > 5`). | Errores en casos borde o datos específicos. |
+| **Hit Count** | Se activa tras ejecutarse N veces (`= 100`). | Bucles largos (`for`/`while`). |
+| **Logpoint** | **No detiene** el programa; imprime un log en la consola. | Rastrear comportamiento sin pausar el flujo. |
+
+---
+
+### 3. Configuración Principal: `.vscode/launch.json`
+
+Define cómo VS Code compila y ejecuta la aplicación antes de conectar el depurador.
+
+* **`preLaunchTask`**: Ejecuta tareas antes de depurar (ej. `"build"` para correr `dotnet build`).
+* **`program`**: Ruta a la DLL compilada (`${workspaceFolder}/bin/Debug/.../Proyecto.dll`).
+* **`console`**: Define la salida/entrada de la aplicación.
+  * **`internalConsole`** *(Default)*: Salida rápida a *Debug Console*. **No permite** `Console.ReadLine()`.
+  * **`integratedTerminal`**: Usa la terminal integrada. **Requerido si la app lee datos del usuario**.
+  * **`externalTerminal`**: Abre una ventana de comandos independiente del SO.
